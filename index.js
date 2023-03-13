@@ -22,7 +22,7 @@ client.connect();
 //Declaring Twilio credentials
 
 const accountSid = "AC93aef2bb031030bbc966e6d3509df4f3";
-const authToken = "e9b3abde6678789b9869207d492227ab";
+const authToken = "197c417df650bc7be903999eed6dfa9a";
 const twilioClient = twilio(accountSid, authToken);
 
 // Adding handler for form post
