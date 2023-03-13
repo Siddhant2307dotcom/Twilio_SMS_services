@@ -1,0 +1,87 @@
+<html>
+  <head>
+    <style>
+      body {
+        background-color: black;
+      }
+      .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 10px;
+        margin: 0 auto; /* Center the grid container */
+        max-width: 1000px;
+        color: azure;
+      }
+      .grid-container div {
+        max-width: 400px;
+        /* justify-content: center; */
+        text-align: left;
+      }
+      h1 {
+        margin: 0 auto;
+        max-width: 200px;
+        border-radius: 5%;
+        padding: 5px 5px 5px 5px;
+        color: azure;
+      }
+
+      h4 {
+        border: 2px solid #0894f2;
+        padding: 10px;
+        color: azure;
+      }
+      li {
+        border: 2px solid #0894f2;
+        margin: 5px;
+        padding: 10px;
+        color: azure;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Message Lists</h1>
+    <div class="grid-container">
+      <div class="column1">
+        <h4>Mobile Numbers</h4>
+        <ol id="mobile-number-list"></ol>
+      </div>
+      <div class="column2">
+        <h4>Messages</h4>
+        <ul id="message-list"></ul>
+      </div>
+      <div class="column3">
+        <h4>Time and Date</h4>
+        <ul id="time-list"></ul>
+      </div>
+    </div>
+
+    <script>
+      // Retrieve messages from the server and display them in the list
+      async function getMessages() {
+        const response = await fetch("/messages");
+        const messages = await response.json();
+        console.log(messages);
+        const messagesList = document.getElementById("message-list");
+        const mobileList = document.getElementById("mobile-number-list");
+        const timeList = document.getElementById("time-list");
+        messages.forEach((message) => {
+          console.log(message);
+          const listItemMessages = document.createElement("li");
+          listItemMessages.innerText = message.message;
+          const listItemNumber = document.createElement("li");
+          listItemNumber.innerText = message.mobileNumber;
+          const listDateTime = document.createElement("li");
+          const timestamp = message.sentAt;
+          const date = new Date(timestamp);
+          const formatedDateTime = date.toLocaleString();
+          listDateTime.innerText = formatedDateTime;
+          messagesList.appendChild(listItemMessages);
+          mobileList.appendChild(listItemNumber);
+          timeList.append(listDateTime);
+        });
+      }
+
+      getMessages();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Send SMS and WhatsApp message</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        padding: 20px;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        max-width: 500px;
+        margin: 0 auto;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+
+      input[type="tel"],
+      textarea {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+        margin-bottom: 20px;
+      }
+
+      input[type="submit"] {
+        position: relative;
+        left: 35%;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #3e8e41;
+      }
+
+      #messagePage {
+        position: relative;
+        top: 10px;
+        left: 30%;
+        border-radius: 5px;
+        cursor: pointer;
+        background-color: #4caf50;
+        padding: 10px 20px;
+        font-size: 16px;
+      }
+
+      #nextLink {
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Send SMS and WhatsApp message</h1>
+    <form id="send-form" method="POST" action="/post-credentials">
+      <label for="mobile-number">Mobile Number:</label>
+      <input type="tel" id="mobile-number" name="mobileNumber" required />
+
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" rows="5" required></textarea>
+
+      <input type="submit" value="Send" />
+      <div>
+        <button id="messagePage" type="button">
+          <a id="nextLink" href="/MessageList.html">Message List</a>
+        </button>
+      </div>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#send-form").submit(function (event) {
+          event.preventDefault(); // prevent form submission
+
+          // retrieve the mobile number and message from the form
+          const mobileNumber = $("#mobile-number").val();
+          const message = $("#message").val();
+
+          // send the mobile number and message to the server
+          $.ajax({
+            url: "/post-credentials",
+            method: "POST",
+            data: JSON.stringify({ mobileNumber, message }),
+            contentType: "application/json",
+          })
+            .done(function () {
+              // display a success message
+              alert("Message sent successfully!");
+
+              // clear the form fields
+              $("#mobile-number").val("");
+              $("#message").val("");
+            })
+            .fail(function () {
+              // display an error message
+              alert("Failed to send message.");
+            });
+        });
+      });
+    </script>
+  </body>
+</html>
